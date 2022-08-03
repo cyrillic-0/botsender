@@ -1,4 +1,4 @@
 all: build
 
 build: main.cpp
-	g++ main.cpp -o main -lcurl -ljsoncpp
+	g++ main.cpp botsender.h botsender.cpp -o botsender -lcurl -ljsoncpp
