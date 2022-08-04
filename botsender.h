@@ -9,20 +9,24 @@ static const std::string url_pattern = "https://api.telegram.org/bot%1%/sendMess
 static const std::string red = "\033[0;31m";
 static const std::string nocolor = "\033[0m";
 static const std::string help = "Usage: botsender <flags>\n\n-v - verbose output\n\n-h - help\n\n-v - version\n\n";
-static const std::string version = "Version: v1.1";
+static const std::string version = "Version: v1.2";
 
 size_t response_to_string(char * ptr, size_t size, size_t nmemb, void * userdata);
 
 std::string url_encode(const std::string &value);
 
 
-class BotInstance {
+class BotSender {
 public:
-    BotInstance(const std::string & token, const int chat_id);
+    BotSender();
+    void setBotToken(const std::string & token);
+    void setChatID(const int chat_id);
+    std::string getBotToken();
+    int getChatID();
     void turnOnVerboseOutput(const std::string & filename);
     void turnOffVerboseOutput();
     void sendMessage(const std::string & text);
-    ~BotInstance();
+    ~BotSender();
 
 private:
     CURL * curl;

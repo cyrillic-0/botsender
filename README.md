@@ -9,3 +9,5 @@ A tool for sending messages on Telegram from bot
     * The code has been split into multiple files
     * Added verbose output(logging) support
     * etc.
+* v1.2
+    * Minor API Updates

@@ -55,7 +55,9 @@ int main(int argc, char ** argv) {
         }
 
 	// Create new bot instance
-        BotInstance bot(token, chat_id);
+        BotSender bot;
+        bot.setBotToken(token);
+        bot.setChatID(chat_id);
         if (verbose) {
             bot.turnOnVerboseOutput(root["verbose_data"].asString());
         }

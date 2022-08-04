@@ -43,30 +43,43 @@ std::string url_encode(const std::string &value) {
     return escaped.str();
 }
 
-BotInstance::BotInstance(const std::string & token, const int chat_id) {
-    this->token = token;
-    this->chat_id = chat_id;
+BotSender::BotSender() {
     this->curl = curl_easy_init();
-
     curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, response_to_string);
     curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &raw_json_data);
 }
 
-void BotInstance::turnOnVerboseOutput(const std::string & filename) {
+void BotSender::setBotToken(const std::string & token) {
+    this->token = token;
+}
+
+void BotSender::setChatID(const int chat_id) {
+    this->chat_id = chat_id;
+}
+
+std::string BotSender::getBotToken() {
+    return this->token;
+}
+
+int BotSender::getChatID() {
+    return this->chat_id;
+}
+
+void BotSender::turnOnVerboseOutput(const std::string & filename) {
     this->verbose = true;
     this->verbose_data = fopen(filename.c_str(), "wb");
     curl_easy_setopt(this->curl, CURLOPT_VERBOSE, 1);
     curl_easy_setopt(this->curl, CURLOPT_STDERR, verbose_data);
 }
 
-void BotInstance::turnOffVerboseOutput() {
+void BotSender::turnOffVerboseOutput() {
     curl_easy_setopt(this->curl, CURLOPT_STDERR, stderr);
     curl_easy_setopt(this->curl, CURLOPT_VERBOSE, 0);
     fclose(this->verbose_data);
     this->verbose = false;
 }
 
-void BotInstance::sendMessage(const std::string & text) {
+void BotSender::sendMessage(const std::string & text) {
     std::string url = boost::str(boost::format(url_pattern) % this->token % this->chat_id % url_encode(text));
     std::string error_description;
 
@@ -87,7 +100,7 @@ void BotInstance::sendMessage(const std::string & text) {
     }
 }
 
-BotInstance::~BotInstance() {
+BotSender::~BotSender() {
     curl_easy_cleanup(this->curl);
     if (verbose) {
         fclose(this->verbose_data);
